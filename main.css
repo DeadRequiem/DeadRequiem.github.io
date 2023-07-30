@@ -1,0 +1,13 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: Black; /* change this to your background image /
+}
+
+.container {
+    background: white;
+    width: 400px; / adjust this to the proper width */
+    margin: 0 auto;
+}
