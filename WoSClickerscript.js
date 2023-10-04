@@ -1,4 +1,4 @@
-import { loadGameData, saveGameData } from './saveData.js';
+import { loadGameData, saveGameData } from './saveGame.js';
 
 let clickPower = 1;
 let gp = 0;
