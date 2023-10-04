@@ -14,8 +14,8 @@ function updateUpgradeCost() {
     upgradeCostDisplay.textContent = newUpgradeCost;
 }
 
-// Event listener for the click image
-clickImage.addEventListener('click', () => {
+// Function to handle the image click
+function handleClick() {
     if (!isClicked) {
         isClicked = true;
         clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj11.png'; // Replace with the URL of the clicked image
@@ -28,7 +28,10 @@ clickImage.addEventListener('click', () => {
         gp += clickPower;
         updateGPDisplay();
     }
-});
+}
+
+// Event listener for the click image
+clickImage.addEventListener('click', handleClick);
 
 // Event listener for the upgrade button
 upgradeButton.addEventListener('click', () => {
