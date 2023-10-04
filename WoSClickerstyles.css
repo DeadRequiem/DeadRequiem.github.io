@@ -1,22 +1,24 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+/* Add CSS rules to style elements within the .shop class */
+.shop {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
 }
 
-.container {
-    margin-top: 50px;
+.upgrade {
+    margin: 10px 0;
 }
 
-#clickImage {
-    width: 150px; /* Set the width of the image */
-    height: auto; /* Maintain the aspect ratio */
+#upgradeButton {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
     cursor: pointer;
 }
 
-#score {
-    font-size: 24px; /* Increase font size for visibility */
-}
-
-#clickRate {
-    font-size: 18px;
+#upgradeButton:hover {
+    background-color: #0056b3;
 }
