@@ -1,3 +1,5 @@
+import { loadGameData, saveGameData } from './saveGame.js';
+
 let clickPower = 1;
 let gp = 0;
 let isClicked = false;
