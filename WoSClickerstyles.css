@@ -7,15 +7,16 @@ body {
     margin-top: 50px;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
+#clickImage {
+    width: 150px; /* Set the width of the image */
+    height: auto; /* Maintain the aspect ratio */
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+#score {
+    font-size: 24px; /* Increase font size for visibility */
+}
+
+#clickRate {
+    font-size: 18px;
 }

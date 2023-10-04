@@ -1,29 +1,22 @@
 let score = 0;
-let clickRate = 1;
+let isClicked = false;
 
-const clickButton = document.getElementById('clickButton');
+const clickImage = document.getElementById('clickImage');
 const scoreDisplay = document.getElementById('score');
 const clickRateDisplay = document.getElementById('clickRate');
 
-clickButton.addEventListener('click', () => {
-    score += clickRate;
-    scoreDisplay.textContent = `Score: ${score}`;
-});
-
-// Add an upgrade feature
-const upgradeButton = document.createElement('button');
-upgradeButton.textContent = 'Upgrade (+1 Click Rate)';
-upgradeButton.addEventListener('click', () => {
-    const upgradeCost = Math.pow(2, clickRate);
-    if (score >= upgradeCost) {
-        score -= upgradeCost;
-        clickRate++;
+clickImage.addEventListener('click', () => {
+    if (!isClicked) {
+        score += 1; // You can adjust the click rate here if needed
+        isClicked = true;
+        clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj11.png'; // Replace with the URL of the clicked image
+        setTimeout(() => {
+            isClicked = false;
+            clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj10.png'; // Replace with the URL of the idle image
+        }, 1000); // Adjust the duration for how long the clicked image is displayed (in milliseconds)
+        
         scoreDisplay.textContent = `Score: ${score}`;
-        clickRateDisplay.textContent = `Click Rate: ${clickRate} per click`;
-        upgradeButton.textContent = `Upgrade (+${Math.pow(2, clickRate)} Click Rate)`;
-    } else {
-        alert("Not enough score to upgrade!");
     }
 });
 
-document.body.appendChild(upgradeButton);
+// Rest of your game logic (e.g., upgrades, etc.) goes here
