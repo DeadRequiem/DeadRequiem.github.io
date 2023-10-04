@@ -4,7 +4,7 @@ let gp = 0;
 let isClicked = false;
 
 const clickImage = document.getElementById('clickImage');
-const scoreDisplay = document.getElementById('score');
+const scoreDisplay = document.getElementById('gpDisplay'); // Changed to 'gpDisplay'
 const clickRateDisplay = document.getElementById('clickRate');
 const upgradeButton = document.getElementById('upgradeButton');
 const upgradeCostDisplay = document.getElementById('upgradeCost');
@@ -18,8 +18,17 @@ function updateUpgradeCost() {
 
 // Event listener for the click image
 clickImage.addEventListener('click', () => {
-    score += clickPower;
-    scoreDisplay.textContent = `Score: ${score}`;
+    if (!isClicked) {
+        score += clickPower;
+        isClicked = true;
+        clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj11.png'; // Replace with the URL of the clicked image
+        setTimeout(() => {
+            isClicked = false;
+            clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj10.png'; // Replace with the URL of the idle image
+        }, 100); // Adjust the duration (milliseconds) for how long the clicked image is displayed
+        
+        gpDisplay.textContent = `GP: ${score}`; // Update the GP display
+    }
 });
 
 // Event listener for the upgrade button
@@ -28,7 +37,7 @@ upgradeButton.addEventListener('click', () => {
     if (gp >= upgradeCost) {
         gp -= upgradeCost;
         clickPower++;
-        scoreDisplay.textContent = `Score: ${score}`;
+        scoreDisplay.textContent = `GP: ${score}`; // Update the GP display
         clickRateDisplay.textContent = `GP Rate: ${clickPower} per click`;
         updateUpgradeCost();
         updateGPDisplay();
