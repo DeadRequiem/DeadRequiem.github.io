@@ -18,17 +18,8 @@ function updateUpgradeCost() {
 
 // Event listener for the click image
 clickImage.addEventListener('click', () => {
-    if (!isClicked) {
-        score += clickPower;
-        isClicked = true;
-        clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj11.png'; // Replace with the URL of the clicked image
-        setTimeout(() => {
-            isClicked = false;
-            clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj10.png'; // Replace with the URL of the idle image
-        }, 1000); // Adjust the duration for how long the clicked image is displayed (in milliseconds)
-        
-        scoreDisplay.textContent = `Score: ${score}`;
-    }
+    score += clickPower;
+    scoreDisplay.textContent = `Score: ${score}`;
 });
 
 // Event listener for the upgrade button
@@ -40,6 +31,7 @@ upgradeButton.addEventListener('click', () => {
         scoreDisplay.textContent = `Score: ${score}`;
         clickRateDisplay.textContent = `GP Rate: ${clickPower} per click`;
         updateUpgradeCost();
+        updateGPDisplay();
     } else {
         alert("Not enough GP to buy the upgrade!");
     }

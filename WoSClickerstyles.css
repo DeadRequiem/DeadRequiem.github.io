@@ -1,24 +1,24 @@
-/* Add CSS rules to style elements within the .shop class */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.container {
+    flex: 1;
+    margin-top: 50px;
+    text-align: center;
+}
+
 .shop {
-    margin-top: 20px;
+    flex: 1;
+    margin-top: 50px;
+    text-align: center;
     padding: 20px;
     background-color: #f2f2f2;
     border: 1px solid #ccc;
 }
 
-.upgrade {
-    margin: 10px 0;
-}
-
-#upgradeButton {
-    padding: 5px 10px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-#upgradeButton:hover {
-    background-color: #0056b3;
-}
+/* Rest of your CSS styles */
