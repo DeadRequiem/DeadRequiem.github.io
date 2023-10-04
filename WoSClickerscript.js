@@ -1,3 +1,5 @@
+import { loadGameData, saveGameData } from './saveData.js';
+
 let clickPower = 1;
 let gp = 0;
 let isClicked = false;
@@ -14,8 +16,13 @@ function updateUpgradeCost() {
     upgradeCostDisplay.textContent = newUpgradeCost;
 }
 
-// Function to handle the image click
-function handleClick() {
+// Load saved game data when the page loads
+const savedData = loadGameData();
+gp = savedData.gp || gp;
+clickPower = savedData.clickPower || clickPower;
+
+// Event listener for the click image
+clickImage.addEventListener('click', () => {
     if (!isClicked) {
         isClicked = true;
         clickImage.src = 'https://i14.servimg.com/u/f14/17/55/69/45/greenj11.png'; // Replace with the URL of the clicked image
@@ -27,11 +34,12 @@ function handleClick() {
         // Update the GP directly here
         gp += clickPower;
         updateGPDisplay();
-    }
-}
 
-// Event listener for the click image
-clickImage.addEventListener('click', handleClick);
+        // Create a game data object and save it
+        const gameData = { gp, clickPower };
+        saveGameData(gameData);
+    }
+});
 
 // Event listener for the upgrade button
 upgradeButton.addEventListener('click', () => {
@@ -41,6 +49,10 @@ upgradeButton.addEventListener('click', () => {
         clickPower++;
         clickRateDisplay.textContent = `GP Rate: ${clickPower} per click`;
         updateUpgradeCost();
+
+        // Create a game data object and save it
+        const gameData = { gp, clickPower };
+        saveGameData(gameData);
     } else {
         alert("Not enough GP to buy the upgrade!");
     }
