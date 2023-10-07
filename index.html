@@ -2,17 +2,42 @@
 <html>
 <head>
     <style>
-        table, th, td {
-            border: 1px solid black;
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        img {
+            max-width: 100px;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <table style="width:100%">
+    <table>
         <tr>
-            <th><img src="https://i.imgur.com/6kuh17C.jpg" alt="" width="100" height="25" /></th>
-            <th><img src="https://i.imgur.com/vGFYtWl.jpg" alt="" width="100" height="25" /></th>
-            <th><img src="https://i.imgur.com/A8mP2f6.jpg" alt="" width="100" height="25" /></th>
+            <th><img src="https://i.imgur.com/6kuh17C.jpg" alt="Image 1" /></th>
+            <th><img src="https://i.imgur.com/vGFYtWl.jpg" alt="Image 2" /></th>
+            <th><img src="https://i.imgur.com/A8mP2f6.jpg" alt="Image 3" /></th>
         </tr>
 
         <tr>
