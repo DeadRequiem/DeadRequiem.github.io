@@ -45,7 +45,7 @@
         button:hover {
             background-color: #2980b9;
         }
-        input, select, textarea {
+        input, select {
             width: 100%;
             padding: 5px;
             margin-bottom: 10px;
@@ -168,98 +168,79 @@
                     <input type="number" id="itemId" readonly>
                 </div>
                 <div>
+                    <label for="type">Type</label>
+                    <select id="type" onchange="updateDamageArmorFields()">
+                        <option value="">Select Type</option>
+                        <optgroup label="Weapons">
+                            <option value="SWORD">Sword</option>
+                            <option value="WAND">Wand</option>
+                            <option value="DAGGER">Dagger</option>
+                            <option value="BOW">Bow</option>
+                            <option value="MACE">Mace</option>
+                        </optgroup>
+                        <optgroup label="Armor">
+                            <option value="HELMET">Helmet</option>
+                            <option value="SHIRT">Shirt</option>
+                            <option value="BOOTS">Boots</option>
+                            <option value="GLOVES">Gloves</option>
+                            <option value="SHIELD">Shield</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
                     <label for="name">Name</label>
                     <input type="text" id="name">
                 </div>
                 <div>
-                    <label for="item_type">Item Type</label>
-                    <select id="item_type" onchange="updateDamageArmorFields()">
-                        <option value="">Select Type</option>
-                        <option value="helmet">Helmet</option>
-                        <option value="shirt">Shirt</option>
-                        <option value="boots">Boots</option>
-                        <option value="gloves">Gloves</option>
-                        <option value="main_hand">Main Hand</option>
-                        <option value="offhand">Offhand</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="sub_type">Sub Type</label>
-                    <select id="sub_type">
-                        <option value="">Select Sub Type</option>
-                        <option value="One-Handed">One-Handed</option>
-                        <option value="Two-Handed">Two-Handed</option>
-                        <option value="Bow">Bow</option>
-                        <option value="Thrown">Thrown</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Wand">Wand</option>
-                    </select>
-                </div>
-                <div>
                     <label for="raritySelect">Rarity</label>
                     <select id="raritySelect">
-                        <option value="common">Common</option>
-                        <option value="uncommon">Uncommon</option>
-                        <option value="rare">Rare</option>
-                        <option value="epic">Epic</option>
-                        <option value="legendary">Legendary</option>
-                        <option value="mythic">Mythic</option>
-                        <option value="artifact">Artifact</option>
+                        <option value="COMMON" style="color: #9d9d9d;">Common</option>
+                        <option value="UNCOMMON" style="color: #1eff00;">Uncommon</option>
+                        <option value="RARE" style="color: #0070dd;">Rare</option>
+                        <option value="EPIC" style="color: #a335ee;">Epic</option>
+                        <option value="LEGENDARY" style="color: #ff8000;">Legendary</option>
+                        <option value="MYTHIC" style="color: #e6cc80;">Mythic</option>
+                        <option value="ARTIFACT" style="color: #e6cc80;">Artifact</option>
                     </select>
                 </div>
                 <div>
-                    <label for="value">Value</label>
-                    <input type="number" id="value">
+                    <label for="class">Class</label>
+                    <input type="text" id="class">
                 </div>
                 <div>
-                    <label for="stackable">Stackable</label>
-                    <input type="checkbox" id="stackable">
+                    <label for="levelRequirement">Level Requirement</label>
+                    <input type="number" id="levelRequirement">
                 </div>
                 <div>
-                    <label for="stack_size">Stack Size</label>
-                    <input type="number" id="stack_size">
+                    <label for="strength">Strength Requirement</label>
+                    <input type="number" id="strength">
                 </div>
                 <div>
-                    <label for="class_requirement">Class Requirement</label>
-                    <input type="number" id="class_requirement">
+                    <label for="intelligence">Intelligence Requirement</label>
+                    <input type="number" id="intelligence">
                 </div>
                 <div>
-                    <label for="level_requirement">Level Requirement</label>
-                    <input type="number" id="level_requirement">
+                    <label for="dexterity">Dexterity Requirement</label>
+                    <input type="number" id="dexterity">
                 </div>
                 <div>
-                    <label for="stat_requirement">Stat Requirements</label>
-                    <textarea id="stat_requirement" placeholder='{"str": 0, "int": 0, "dex": 0}'></textarea>
+                    <label for="luck">Luck Requirement</label>
+                    <input type="number" id="luck">
                 </div>
                 <div>
                     <label for="description">Description</label>
                     <input type="text" id="description">
                 </div>
                 <div id="damageField" style="display: none;">
-                    <label for="properties">Damage (min:max)</label>
-                    <input type="text" id="properties" placeholder='{"attack": [min, max]}'>
+                    <label for="damage">Damage (min:max)</label>
+                    <div class="damage-input">
+                        <input type="number" id="damageMin" placeholder="Min">
+                        <input type="number" id="damageMax" placeholder="Max">
+                    </div>
                 </div>
                 <div id="armorField" style="display: none;">
-                    <label for="properties">Armor</label>
-                    <input type="text" id="properties" placeholder='{"defense": value}'>
-                </div>
-                <div>
-                    <label for="category">Category</label>
-                    <select id="category">
-                        <option value="weapons">Weapons</option>
-                        <option value="armor">Armor</option>
-                        <option value="consumables">Consumables</option>
-                        <option value="resources">Resources</option>
-                        <option value="quest_items">Quest Items</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="element">Element</label>
-                    <input type="text" id="element">
-                </div>
-                <div>
-                    <label for="iconPath">Icon Path</label>
-                    <input type="text" id="iconPath">
+                    <label for="armor">Armor</label>
+                    <input type="number" id="armor">
                 </div>
             </div>
             <button onclick="saveItem()">Save Item</button>
@@ -275,209 +256,16 @@
         <p id="mostCommonRarity">Most Common Rarity: N/A</p>
     </div>
 
-    <!-- JavaScript for item editor functionality -->
+    <!-- <img id="itemWizard" src="ItemWizard.png" alt="Item Wizard"> -->
+    <img id="itemWizard" src="https://i14.servimg.com/u/f14/17/55/69/45/itemwi10.png" alt="Item Wizard">
+    <div class="speech-bubble" id="speechBubble"></div>
+
     <script>
+        /* Global Variables */
         let items = [];
         let currentItemIndex = -1;
+        let speechBubbleTimeout;
 
-        function loadItem(index) {
-            currentItemIndex = index;
-            const item = items[index];
-            document.getElementById('itemId').value = item.id || '';
-            document.getElementById('name').value = item.name || '';
-            document.getElementById('item_type').value = item.item_type || '';
-            document.getElementById('sub_type').value = item.sub_type || '';
-            document.getElementById('raritySelect').value = item.rarity || '';
-            document.getElementById('value').value = item.value || '';
-            document.getElementById('stackable').checked = item.stackable || false;
-            document.getElementById('stack_size').value = item.stack_size || 1;
-            document.getElementById('class_requirement').value = item.class_requirement || 0;
-            document.getElementById('level_requirement').value = item.level_requirement || 1;
-            document.getElementById('stat_requirement').value = JSON.stringify(item.stat_requirement || {});
-            document.getElementById('description').value = item.description || '';
-            document.getElementById('properties').value = JSON.stringify(item.properties || {});
-            document.getElementById('category').value = item.category || '';
-            document.getElementById('element').value = item.element || '';
-            document.getElementById('iconPath').value = item.icon_path || 'WIPIcon.png';
-            updateDamageArmorFields();
-        }
-
-        function saveItem() {
-            const item = {
-                id: document.getElementById('itemId').value,
-                name: document.getElementById('name').value,
-                item_type: document.getElementById('item_type').value,
-                sub_type: document.getElementById('sub_type').value,
-                rarity: document.getElementById('raritySelect').value,
-                value: document.getElementById('value').value,
-                stackable: document.getElementById('stackable').checked,
-                stack_size: document.getElementById('stack_size').value,
-                class_requirement: document.getElementById('class_requirement').value,
-                level_requirement: document.getElementById('level_requirement').value,
-                stat_requirement: JSON.parse(document.getElementById('stat_requirement').value || '{}'),
-                description: document.getElementById('description').value,
-                properties: JSON.parse(document.getElementById('properties').value || '{}'),
-                category: document.getElementById('category').value,
-                element: document.getElementById('element').value,
-                icon_path: document.getElementById('iconPath').value
-            };
-            if (currentItemIndex === -1) {
-                items.push(item);
-                currentItemIndex = items.length - 1;
-            } else {
-                items[currentItemIndex] = item;
-            }
-            updateItemList();
-            updateStatistics();
-        }
-
-        function updateDamageArmorFields() {
-            const itemType = document.getElementById('item_type').value;
-            const damageField = document.getElementById('damageField');
-            const armorField = document.getElementById('armorField');
-            if (itemType === 'main_hand' || itemType === 'offhand') {
-                damageField.style.display = 'block';
-                armorField.style.display = 'none';
-            } else if (itemType === 'helmet' || itemType === 'shirt' || itemType === 'boots' || itemType === 'gloves') {
-                damageField.style.display = 'none';
-                armorField.style.display = 'block';
-            } else {
-                damageField.style.display = 'none';
-                armorField.style.display = 'none';
-            }
-        }
-
-        function addItem() {
-            const newId = items.length > 0 ? Math.max(...items.map(item => parseInt(item.id) || 0)) + 1 : 1;
-            const newItem = { id: newId.toString() };
-            items.push(newItem);
-            updateItemList();
-            loadItem(items.length - 1);
-            updateStatistics();
-        }
-
-        function removeItem() {
-            if (currentItemIndex !== -1) {
-                items.splice(currentItemIndex, 1);
-                updateItemList();
-                if (items.length > 0) {
-                    loadItem(Math.min(currentItemIndex, items.length - 1));
-                } else {
-                    clearItemForm();
-                }
-                updateStatistics();
-            }
-        }
-
-        function clearItemForm() {
-            currentItemIndex = -1;
-            document.getElementById('itemId').value = '';
-            document.getElementById('name').value = '';
-            document.getElementById('item_type').value = '';
-            document.getElementById('sub_type').value = '';
-            document.getElementById('raritySelect').value = '';
-            document.getElementById('value').value = '';
-            document.getElementById('stackable').checked = false;
-            document.getElementById('stack_size').value = '';
-            document.getElementById('class_requirement').value = '';
-            document.getElementById('level_requirement').value = '';
-            document.getElementById('stat_requirement').value = '{}';
-            document.getElementById('description').value = '';
-            document.getElementById('properties').value = '{}';
-            document.getElementById('category').value = '';
-            document.getElementById('element').value = '';
-            document.getElementById('iconPath').value = '';
-            updateDamageArmorFields();
-        }
-
-        function updateItemList(filteredItems = items) {
-            const itemList = document.getElementById('itemList');
-            itemList.innerHTML = '';
-            filteredItems.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.textContent = `ID: ${item.id || 'N/A'} [${item.name || 'Unnamed Item'}]`;
-                li.onclick = () => loadItem(index);
-                itemList.appendChild(li);
-            });
-        }
-
-        function saveFile() {
-            let content = '';
-            for (let item of items) {
-                content += '[ITEM]\n';
-                for (let [key, value] of Object.entries(item)) {
-                    content += `<${key.toUpperCase()}>: ${value}\n`;
-                }
-                content += '\n';
-            }
-            const blob = new Blob([content], { type: 'text/plain' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'items.txt';
-            a.click();
-        }
-
-        function loadItems() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const content = e.target.result;
-                    items = parseItemData(content);
-                    updateItemList();
-                    updateStatistics();
-                    if (items.length > 0) {
-                        loadItem(0);
-                    }
-                };
-                reader.readAsText(file);
-            }
-        }
-
-        function parseItemData(data) {
-            const items = [];
-            const itemRegex = /\[ITEM\]([\s\S]*?)(?=\[ITEM\]|$)/g;
-            const fieldRegex = /<(\w+)>:\s*([\s\S]*?)(?=<\w+>:|$)/g;
-            let match;
-            while ((match = itemRegex.exec(data)) !== null) {
-                const itemData = match[1];
-                const item = {};
-                let fieldMatch;
-                while ((fieldMatch = fieldRegex.exec(itemData)) !== null) {
-                    const [, key, value] = fieldMatch;
-                    item[key.toLowerCase()] = value.trim();
-                }
-                items.push(item);
-            }
-            return items;
-        }
-
-        function searchItems() {
-            const query = document.getElementById('searchBar').value.toLowerCase();
-            const filteredItems = items.filter(item => 
-                (item.name && item.name.toLowerCase().includes(query)) ||
-                (item.id && item.id.toLowerCase().includes(query))
-            );
-            updateItemList(filteredItems);
-        }
-
-        function updateStatistics() {
-            const totalItems = items.length;
-            const averageLevel = (items.reduce((sum, item) => sum + (parseInt(item.level_requirement) || 0), 0) / totalItems).toFixed(2);
-            const rarityCount = items.reduce((count, item) => {
-                count[item.rarity] = (count[item.rarity] || 0) + 1;
-                return count;
-            }, {});
-            const mostCommonRarity = Object.keys(rarityCount).reduce((a, b) => rarityCount[a] > rarityCount[b] ? a : b, 'N/A');
-            document.getElementById('totalItems').textContent = `Total Items: ${totalItems}`;
-            document.getElementById('averageLevel').textContent = `Average Level Requirement: ${averageLevel}`;
-            document.getElementById('mostCommonRarity').textContent = `Most Common Rarity: ${mostCommonRarity}`;
-        }
-    </script>
-
-    <!-- Wizard and Speech Bubble JavaScript -->
-    <script>
         const wizardQuotes = [
             "Behold the power of my breakfast burrito",
             "With a sprinkle of unicorn dust and a dash of dragon sneeze",
@@ -602,10 +390,12 @@
         };
         const rarities = ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "ARTIFACT"];
 
+        /* Utility Functions */
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
+        /* Wizard Functionality */
         function wizardCreateItem() {
             const itemType = getRandomElement(Object.keys(itemTypes));
             const rarity = getRandomElement(rarities);
@@ -618,16 +408,17 @@
                 armor = Math.floor(Math.random() * 100) + 1;
             }
             const name = getRandomElement(itemTypes[itemType]);
-            document.getElementById('item_type').value = itemType;
+            document.getElementById('type').value = itemType;
             document.getElementById('raritySelect').value = rarity;
-            document.getElementById('level_requirement').value = levelRequirement;
+            document.getElementById('levelRequirement').value = levelRequirement;
             document.getElementById('name').value = name;
             if (damageMin && damageMax) {
-                document.getElementById('properties').value = JSON.stringify({ "attack": [damageMin, damageMax] });
+                document.getElementById('damageMin').value = damageMin;
+                document.getElementById('damageMax').value = damageMax;
                 document.getElementById('damageField').style.display = 'block';
                 document.getElementById('armorField').style.display = 'none';
             } else if (armor) {
-                document.getElementById('properties').value = JSON.stringify({ "defense": armor });
+                document.getElementById('armor').value = armor;
                 document.getElementById('damageField').style.display = 'none';
                 document.getElementById('armorField').style.display = 'block';
             }
@@ -639,7 +430,10 @@
             const speechBubble = document.getElementById('speechBubble');
             speechBubble.textContent = `${phrase} ...and I'll call it... ${text}!`;
             speechBubble.style.display = 'block';
-            setTimeout(() => {
+            if (speechBubbleTimeout) {
+                clearTimeout(speechBubbleTimeout);
+            }
+            speechBubbleTimeout = setTimeout(() => {
                 speechBubble.style.display = 'none';
             }, 5000);
         }
@@ -649,15 +443,230 @@
             const speechBubble = document.getElementById('speechBubble');
             speechBubble.textContent = phrase;
             speechBubble.style.display = 'block';
-            setTimeout(() => {
+            if (speechBubbleTimeout) {
+                clearTimeout(speechBubbleTimeout);
+            }
+            speechBubbleTimeout = setTimeout(() => {
                 speechBubble.style.display = 'none';
             }, 5000); // Hide the speech bubble after 5 seconds
         }
 
+        /* Item Management */
+        function parseItemData(data) {
+            const items = [];
+            const itemRegex = /\[ITEM\]([\s\S]*?)(?=\[ITEM\]|$)/g;
+            const fieldRegex = /<(\w+)>:\s*([\s\S]*?)(?=<\w+>:|$)/g;
+            let match;
+            while ((match = itemRegex.exec(data)) !== null) {
+                const itemData = match[1];
+                const item = {};
+                let fieldMatch;
+                while ((fieldMatch = fieldRegex.exec(itemData)) !== null) {
+                    const [, key, value] = fieldMatch;
+                    item[key.toLowerCase()] = value.trim();
+                }
+                items.push(item);
+            }
+            return items;
+        }
+
+        function loadItems() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    items = parseItemData(content);
+                    updateItemList();
+                    updateStatistics();
+                    if (items.length > 0) {
+                        loadItem(0);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function updateItemList(filteredItems = items) {
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = '';
+            filteredItems.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `ID: ${item.itemid || 'N/A'} [${item.name || 'Unnamed Item'}]`;
+                li.onclick = () => loadItem(index);
+                itemList.appendChild(li);
+            });
+        }
+
+        function loadItem(index) {
+            currentItemIndex = index;
+            const item = items[index];
+            document.getElementById('itemId').value = item.itemid || '';
+            document.getElementById('type').value = item.type || '';
+            document.getElementById('name').value = item.name || '';
+            document.getElementById('raritySelect').value = item.rarity || '';
+            document.getElementById('class').value = item.class || '';
+            document.getElementById('levelRequirement').value = item.levelrequirement || '';
+            document.getElementById('strength').value = item.strength || '';
+            document.getElementById('intelligence').value = item.intelligence || '';
+            document.getElementById('dexterity').value = item.dexterity || '';
+            document.getElementById('luck').value = item.luck || '';
+            document.getElementById('description').value = item.description || '';
+            if (item.damage) {
+                const [min, max] = item.damage.split(':');
+                document.getElementById('damageMin').value = min || '';
+                document.getElementById('damageMax').value = max || '';
+                document.getElementById('damageField').style.display = 'block';
+            } else {
+                document.getElementById('damageField').style.display = 'none';
+            }
+            if (item.armor) {
+                document.getElementById('armor').value = item.armor;
+                document.getElementById('armorField').style.display = 'block';
+            } else {
+                document.getElementById('armorField').style.display = 'none';
+            }
+        }
+
+        function updateDamageArmorFields() {
+            const type = document.getElementById('type').value;
+            const damageField = document.getElementById('damageField');
+            const armorField = document.getElementById('armorField');
+            if (['SWORD', 'WAND', 'DAGGER', 'BOW', 'MACE'].includes(type)) {
+                damageField.style.display = 'block';
+                armorField.style.display = 'none';
+            } else if (['HELMET', 'SHIRT', 'BOOTS', 'GLOVES', 'SHIELD'].includes(type)) {
+                damageField.style.display = 'none';
+                armorField.style.display = 'block';
+            } else {
+                damageField.style.display = 'none';
+                armorField.style.display = 'none';
+            }
+        }
+
+        function saveItem() {
+            const item = {
+                itemid: document.getElementById('itemId').value,
+                type: document.getElementById('type').value,
+                name: document.getElementById('name').value,
+                rarity: document.getElementById('raritySelect').value,
+                class: document.getElementById('class').value,
+                levelrequirement: document.getElementById('levelRequirement').value,
+                strength: document.getElementById('strength').value,
+                intelligence: document.getElementById('intelligence').value,
+                dexterity: document.getElementById('dexterity').value,
+                luck: document.getElementById('luck').value,
+                description: document.getElementById('description').value,
+            };
+            const damageMin = document.getElementById('damageMin').value;
+            const damageMax = document.getElementById('damageMax').value;
+            if (damageMin && damageMax) {
+                item.damage = `${damageMin}:${damageMax}`;
+            }
+            const armor = document.getElementById('armor').value;
+            if (armor) {
+                item.armor = armor;
+            }
+            if (currentItemIndex === -1) {
+                items.push(item);
+                currentItemIndex = items.length - 1;
+            } else {
+                items[currentItemIndex] = item;
+            }
+            updateItemList();
+            updateStatistics();
+        }
+
+        function addItem() {
+            const newId = items.length > 0 ? Math.max(...items.map(item => parseInt(item.itemid) || 0)) + 1 : 1;
+            const newItem = { itemid: newId.toString() };
+            items.push(newItem);
+            updateItemList();
+            loadItem(items.length - 1);
+            updateStatistics();
+        }
+
+        function removeItem() {
+            if (currentItemIndex !== -1) {
+                items.splice(currentItemIndex, 1);
+                updateItemList();
+                if (items.length > 0) {
+                    loadItem(Math.min(currentItemIndex, items.length - 1));
+                } else {
+                    clearItemForm();
+                }
+                updateStatistics();
+            }
+        }
+
+        function clearItemForm() {
+            currentItemIndex = -1;
+            document.getElementById('itemId').value = '';
+            document.getElementById('type').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('raritySelect').value = '';
+            document.getElementById('class').value = '';
+            document.getElementById('levelRequirement').value = '';
+            document.getElementById('strength').value = '';
+            document.getElementById('intelligence').value = '';
+            document.getElementById('dexterity').value = '';
+            document.getElementById('luck').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('damageMin').value = '';
+            document.getElementById('damageMax').value = '';
+            document.getElementById('armor').value = '';
+            updateDamageArmorFields();
+        }
+
+        function saveFile() {
+            let content = '';
+            for (let item of items) {
+                content += '[ITEM]\n';
+                for (let [key, value] of Object.entries(item)) {
+                    content += `<${key.toUpperCase()}>: ${value}\n`;
+                }
+                content += '\n';
+            }
+            const blob = new Blob([content], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'items.txt';
+            a.click();
+        }
+
+        /* Search Functionality */
+        function searchItems() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const filteredItems = items.filter(item => 
+                (item.name && item.name.toLowerCase().includes(query)) ||
+                (item.itemid && item.itemid.toLowerCase().includes(query))
+            );
+            updateItemList(filteredItems);
+        }
+
+        /* Statistics Functionality */
+        function updateStatistics() {
+            const totalItems = items.length;
+            const averageLevel = (items.reduce((sum, item) => sum + (parseInt(item.levelrequirement) || 0), 0) / totalItems).toFixed(2);
+            const rarityCount = items.reduce((count, item) => {
+                count[item.rarity] = (count[item.rarity] || 0) + 1;
+                return count;
+            }, {});
+            const mostCommonRarity = Object.keys(rarityCount).reduce((a, b) => rarityCount[a] > rarityCount[b] ? a : b, 'N/A');
+            document.getElementById('totalItems').textContent = `Total Items: ${totalItems}`;
+            document.getElementById('averageLevel').textContent = `Average Level Requirement: ${averageLevel}`;
+            document.getElementById('mostCommonRarity').textContent = `Most Common Rarity: ${mostCommonRarity}`;
+        }
+
+        /* Initialize Wizard Click */
         document.addEventListener('DOMContentLoaded', () => {
             const itemWizard = document.getElementById('itemWizard');
             itemWizard.addEventListener('click', showClickPhrase);
         });
+
+        /* Initialize Form */
+        updateDamageArmorFields();
     </script>
 </body>
 </html>
