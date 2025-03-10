@@ -1,169 +1,384 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worlds Index | Well of Souls</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: white;
-        }
-
-        .navbar {
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        .navbar a {
-            float: left;
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .dropdown {
-            float: left;
-            overflow: hidden;
-        }
-
-        .dropdown .dropbtn {
-            font-size: 16px;
-            border: none;
-            outline: none;
-            color: white;
-            padding: 14px 16px;
-            background-color: inherit;
-            font-family: inherit;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #111;
+        }
+
+        /* Main content container */
+        .container {
+            background-image: url('https://i14.servimg.com/u/f14/17/55/69/45/evergr10.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        .header {
+            background-color: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            padding: 16px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 16px;
+            color: #eee;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #bb86fc;
+        }
+
+        .has-dropdown {
+            position: relative;
+        }
+
+        .has-dropdown .nav-link::after {
+            content: "\f107";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-left: 6px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 220px;
+            background-color: rgba(25, 25, 25, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 8px 0;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .has-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #eee;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(187, 134, 252, 0.1);
+            color: #bb86fc;
+        }
+
+        /* Mobile hamburger */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
             cursor: pointer;
         }
 
-        .navbar a:hover, .dropdown:hover .dropbtn {
-            background-color: red;
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            float: none;
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-
-<div class="navbar">
-    <a href="https://deadrequiem.github.io/">Home</a>
-    <div class="dropdown">
-        <button class="dropbtn">World Index 
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="https://deadrequiem.github.io/Worlds.html">Index</a>
-        </div>
-    </div>
-    <div class="dropdown">
-        <button class="dropbtn">World Info 
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="https://deadrequiem.github.io/AtheliasQuests.htm">Athelias Quests</a>
-            <a href="#">Another Link</a>
-        </div>
-    </div>
-    <!-- New tab "ReMix" with dropdown button "BitBucket" -->
-    <div class="dropdown">
-        <button class="dropbtn">ReMix 
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="https://bitbucket.org/ahitb/remix/src/master" target="_blank">BitBucket</a>
-        </div>
-    </div>
-    <!-- New tab "NMisc" with dropdown button -->
-    <div class="dropdown">
-        <button class="dropbtn">Random
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="https://deadrequiem.github.io/rand.html" target="_blank">Random Gen</a>
-        </div>
-    </div>
-    <!-- New tab "GitPage" with dropdown button "GitPage" -->
-    <div class="dropdown">
-        <button class="dropbtn">Main Git
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="https://github.com/DeadRequiem" target="_blank">Main Git</a>
-        </div>
-    </div>
-</div>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        table {
-            border-collapse: collapse;
+        .worlds-card {
+            background-color: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            max-width: 1200px;
             width: 100%;
-            margin: 20px auto;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            margin-bottom: 30px;
+        }
+
+        .worlds-table-container {
+            background-color: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            overflow-x: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .worlds-title {
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .worlds-text {
+            color: #ddd;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #eee;
         }
 
         th, td {
-            padding: 10px;
+            padding: 15px;
             text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: rgba(187, 134, 252, 0.1);
+            color: #bb86fc;
+            font-weight: 600;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
-        a {
+        table a {
+            color: #bb86fc;
             text-decoration: none;
-            color: #007bff;
+            transition: all 0.3s ease;
         }
 
-        img {
+        table a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        img.thumbnail {
             max-width: 100px;
-            height: auto;
+            border-radius: 6px;
+            transition: transform 0.3s ease;
+        }
+
+        img.thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(5px);
+            padding: 16px 0;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 63px;
+                left: 0;
+                right: 0;
+                background-color: rgba(15, 15, 15, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 20px;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: all 0.4s ease-out;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            }
+
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 16px;
+                display: block;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                background-color: rgba(30, 30, 30, 0.95);
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                visibility: visible;
+                transform: none;
+                transition: all 0.3s ease;
+                box-shadow: none;
+            }
+
+            .has-dropdown.active .dropdown-menu {
+                opacity: 1;
+                max-height: 500px;
+                padding: 8px 0;
+            }
+
+            .has-dropdown .nav-link::after {
+                float: right;
+                content: "\f105";
+                transition: transform 0.3s ease;
+            }
+
+            .has-dropdown.active .nav-link::after {
+                transform: rotate(90deg);
+            }
+
+            .worlds-card {
+                padding: 30px 20px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <th><img src="https://i.imgur.com/6kuh17C.jpg" alt="Image 1" /></th>
-            <th><img src="https://i.imgur.com/vGFYtWl.jpg" alt="Image 2" /></th>
-            <th><img src="https://i.imgur.com/A8mP2f6.jpg" alt="Image 3" /></th>
-        </tr>
-<!-- START OF WORLD ENTRIES -->
+    <div class="container">
+        <header class="header">
+            <div class="nav-container">
+                <a href="https://deadrequiem.github.io/" class="logo">
+                    <i class="fas fa-ghost"></i> Well of Souls
+                </a>
+                
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-links" id="nav-links">
+                    <li class="nav-item">
+                        <a href="https://deadrequiem.github.io/" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link">Worlds</a>
+                        <div class="dropdown-menu">
+                            <a href="https://deadrequiem.github.io/Worlds.html" class="dropdown-item">Worlds Index</a>
+                            <a href="https://deadrequiem.github.io/AtheliasQuests.htm" class="dropdown-item">Athelias Quests</a>
+                            <a href="#" class="dropdown-item">More Worlds</a>
+                        </div>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link">Projects</a>
+                        <div class="dropdown-menu">
+                            <a href="https://bitbucket.org/ahitb/remix/src/master" class="dropdown-item" target="_blank">ReMix on BitBucket</a>
+                            <a href="https://deadrequiem.github.io/rand.html" class="dropdown-item">Random Generator</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://github.com/DeadRequiem" class="nav-link" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="worlds-card">
+                <h1 class="worlds-title">Worlds Index</h1>
+                <p class="worlds-text">Below is a listing of hand curated worlds, by myself, Demi. If a world you want is missing, or you would like to add one, @ me in Discord and let me know.</p>
+            </div>
+
+            <div class="worlds-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>World Name</th>
+                            <th>Developer</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- START OF WORLD ENTRIES -->
         <tr>
         <!-- URL + Name of Link-->
         <td><a href="https://www.dropbox.com/s/n2s7mln82fav9il/castlevania1.0162.zip?dl=1" rel="noopener">Castlevania V1.0162</a></td>
@@ -527,11 +742,55 @@
         <td>November 5, 2005</td>
     </tr>
 <!-- END OF WORLD ENTRIES -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Well of Souls | Created by Demi</p>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
         
-    </table>
-</body>
-</html>
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = mobileToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
 
-
+        // Handle mobile dropdowns
+        const dropdowns = document.querySelectorAll('.has-dropdown');
+        
+        if (window.innerWidth <= 768) {
+            dropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('.nav-link');
+                
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+    </script>
 </body>
 </html>
