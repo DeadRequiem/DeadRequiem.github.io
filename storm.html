@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abyssal Storm — Horror Concept (Interactive)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        #canvas {
+            display: block;
+            cursor: crosshair;
+        }
+        
+        #controls {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 250px;
+            height: 100vh;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        #controls.hidden {
+            transform: translateX(100%);
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        .color-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .color-slider {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .color-slider label {
+            width: 15px;
+            font-size: 12px;
+        }
+        
+        .color-slider input[type="range"] {
+            flex: 1;
+            height: 15px;
+        }
+        
+        .color-slider span {
+            width: 30px;
+            font-size: 11px;
+        }
+        
+        button {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        
+        button:hover {
+            background: #444;
+        }
+        
+        button:active {
+            background: #555;
+        }
+        
+        .effect-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .effect-slider {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .effect-slider label {
+            font-size: 12px;
+        }
+        
+        .effect-slider input {
+            width: 80px;
+        }
+        
+        .instructions {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div id="controls">
+        <h2 style="margin-top: 0; font-size: 16px;">Controls</h2>
+        
+        <div style="margin-bottom: 15px;">
+            <button onclick="triggerLightning()">Lightning!</button>
+            <button onclick="toggleControls()">Toggle GUI</button>
+            <button id="audioButton" onclick="toggleAudio()">🔊 Enable Sound</button>
+        </div>
+        
+        <div id="audioVolumeControl" style="display: none; margin-bottom: 10px;">
+            <div class="effect-slider">
+                <label>Volume:</label>
+                <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.7">
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <h3>Sky Colors</h3>
+            <div class="color-controls">
+                <div class="color-slider">
+                    <label>R:</label>
+                    <input type="range" id="skyTopR" min="0" max="255" value="5">
+                    <span id="skyTopR_val">5</span>
+                </div>
+                <div class="color-slider">
+                    <label>G:</label>
+                    <input type="range" id="skyTopG" min="0" max="255" value="5">
+                    <span id="skyTopG_val">5</span>
+                </div>
+                <div class="color-slider">
+                    <label>B:</label>
+                    <input type="range" id="skyTopB" min="0" max="255" value="15">
+                    <span id="skyTopB_val">15</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <h3>Ocean Surface</h3>
+            <div class="color-controls">
+                <div class="color-slider">
+                    <label>R:</label>
+                    <input type="range" id="oceanR" min="0" max="255" value="15">
+                    <span id="oceanR_val">15</span>
+                </div>
+                <div class="color-slider">
+                    <label>G:</label>
+                    <input type="range" id="oceanG" min="0" max="255" value="25">
+                    <span id="oceanG_val">25</span>
+                </div>
+                <div class="color-slider">
+                    <label>B:</label>
+                    <input type="range" id="oceanB" min="0" max="255" value="40">
+                    <span id="oceanB_val">40</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <h3>Lightning Color</h3>
+            <div class="color-controls">
+                <div class="color-slider">
+                    <label>R:</label>
+                    <input type="range" id="lightningR" min="0" max="255" value="100">
+                    <span id="lightningR_val">100</span>
+                </div>
+                <div class="color-slider">
+                    <label>G:</label>
+                    <input type="range" id="lightningG" min="0" max="255" value="100">
+                    <span id="lightningG_val">100</span>
+                </div>
+                <div class="color-slider">
+                    <label>B:</label>
+                    <input type="range" id="lightningB" min="0" max="255" value="255">
+                    <span id="lightningB_val">255</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <h3>Effects</h3>
+            <div class="effect-controls">
+                <div class="effect-slider">
+                    <label>Lightning Intensity:</label>
+                    <input type="range" id="lightningIntensity" min="0" max="200" value="120">
+                </div>
+                <div class="effect-slider">
+                    <label>Rain Intensity:</label>
+                    <input type="range" id="rainIntensity" min="0" max="2" step="0.1" value="0.8">
+                </div>
+                <div class="effect-slider">
+                    <label>Wave Chaos:</label>
+                    <input type="range" id="waveChaos" min="0" max="3" step="0.1" value="1.0">
+                </div>
+                <div class="effect-slider">
+                    <label>Glitch Intensity:</label>
+                    <input type="range" id="glitchIntensity" min="0" max="3" step="0.1" value="1.0">
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <strong>Controls:</strong><br>
+            • Space: Trigger lightning<br>
+            • Tab: Toggle GUI<br>
+            • Click: Lightning at mouse<br>
+            • 🔊 Button: Enable ocean sounds<br><br>
+            <em>Click "Enable Sound" to hear atmospheric ocean audio</em>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Resize canvas to fill window
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Settings object
+        const settings = {
+            skyColorTop: [5, 5, 15],
+            skyColorBottom: [25, 25, 45],
+            oceanSurfaceColor: [15, 25, 40],
+            oceanDeepColor: [5, 10, 20],
+            lightningColor: [100, 100, 255],
+            rainColor: [180, 180, 200],
+            lightningIntensity: 120,
+            rainIntensity: 0.8,
+            waveChaos: 1.0,
+            glitchIntensity: 1.0
+        };
+        
+        // Audio setup
+        let audioElement = null;
+        let isAudioEnabled = false;
+        
+        function initAudio() {
+            if (!audioElement) {
+                audioElement = new Audio('ocean.mp3');
+                audioElement.loop = true;
+                audioElement.volume = 0.7;
+                
+                audioElement.addEventListener('loadeddata', () => {
+                    isAudioEnabled = true;
+                    document.getElementById('audioButton').textContent = '🔊 Ocean Sound ON';
+                    document.getElementById('audioVolumeControl').style.display = 'block';
+                });
+                
+                audioElement.addEventListener('error', (e) => {
+                    console.log('Could not load ocean.mp3 - continuing without audio');
+                    document.getElementById('audioButton').textContent = '🔊 Audio Unavailable';
+                    isAudioEnabled = false;
+                });
+            }
+        }
+        
+        function toggleAudio() {
+            if (!audioElement) {
+                initAudio();
+                // Try to play after a short delay to let it load
+                setTimeout(() => {
+                    if (isAudioEnabled) {
+                        audioElement.play().catch(e => {
+                            console.log('Playback failed:', e);
+                            document.getElementById('audioButton').textContent = '🔊 Click to Enable';
+                        });
+                    }
+                }, 100);
+            } else {
+                if (audioElement.paused) {
+                    audioElement.play().then(() => {
+                        document.getElementById('audioButton').textContent = '🔊 Ocean Sound ON';
+                    }).catch(e => {
+                        console.log('Playback failed:', e);
+                        document.getElementById('audioButton').textContent = '🔊 Click to Enable';
+                    });
+                } else {
+                    audioElement.pause();
+                    document.getElementById('audioButton').textContent = '🔊 Ocean Sound OFF';
+                }
+            }
+        }
+        
+        // Animation state
+        let frame = 0;
+        let lightningFlashTimer = 0;
+        let flashOpacity = 0;
+        let nextLightningDelay = Math.floor(Math.random() * 300) + 300;
+        let lightningBolts = [];
+        let rainDrops = [];
+        let horizon = canvas.height / 2;
+        
+        // Update horizon on resize
+        function updateHorizon() {
+            horizon = canvas.height / 2;
+        }
+        window.addEventListener('resize', updateHorizon);
+        
+        // Utility functions
+        function lerp(a, b, t) {
+            return a * (1 - t) + b * t;
+        }
+        
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+        
+        // Lightning bolt class
+        class LightningBolt {
+            constructor(startX = null, startY = null) {
+                this.startX = startX || random(canvas.width * 0.25, canvas.width * 0.75);
+                this.startY = startY || random(20, horizon * 0.5);
+                this.segments = this.generateSegments();
+                this.lifetime = Math.floor(random(8, 15));
+                this.maxLifetime = this.lifetime;
+            }
+            
+            generateSegments() {
+                const segments = [[this.startX, this.startY]];
+                let currentX = this.startX;
+                let currentY = this.startY;
+                
+                while (currentY < horizon + random(50, 150)) {
+                    currentX += random(-30, 30);
+                    currentY += random(15, 40);
+                    currentX = clamp(currentX, 50, canvas.width - 50);
+                    segments.push([currentX, currentY]);
+                    
+                    // Chance to branch
+                    if (Math.random() < 0.3 && segments.length > 2) {
+                        const branch = this.generateBranch(currentX, currentY, 3);
+                        segments.push(...branch);
+                    }
+                }
+                
+                return segments;
+            }
+            
+            generateBranch(startX, startY, maxLength) {
+                const branch = [];
+                let currentX = startX;
+                let currentY = startY;
+                
+                for (let i = 0; i < maxLength; i++) {
+                    currentX += random(-20, 20);
+                    currentY += random(10, 25);
+                    branch.push([currentX, currentY]);
+                }
+                
+                return branch;
+            }
+            
+            draw(ctx) {
+                if (this.lifetime <= 0) return;
+                
+                if (Math.random() < 0.7) {
+                    const alpha = this.lifetime / this.maxLifetime;
+                    
+                    for (let i = 0; i < this.segments.length - 1; i++) {
+                        const [x1, y1] = this.segments[i];
+                        const [x2, y2] = this.segments[i + 1];
+                        
+                        if (Math.random() < 0.8) {
+                            // Outer glow
+                            ctx.strokeStyle = `rgba(${settings.lightningColor[0]}, ${settings.lightningColor[1]}, ${settings.lightningColor[2]}, ${alpha * 0.3})`;
+                            ctx.lineWidth = 4;
+                            ctx.beginPath();
+                            ctx.moveTo(x1 - 1, y1);
+                            ctx.lineTo(x2 - 1, y2);
+                            ctx.stroke();
+                            
+                            // Mid glow
+                            ctx.strokeStyle = `rgba(${settings.lightningColor[0] + 50}, ${settings.lightningColor[1] + 50}, ${settings.lightningColor[2]}, ${alpha * 0.5})`;
+                            ctx.lineWidth = 2;
+                            ctx.beginPath();
+                            ctx.moveTo(x1, y1);
+                            ctx.lineTo(x2, y2);
+                            ctx.stroke();
+                            
+                            // Core
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(x1, y1);
+                            ctx.lineTo(x2, y2);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                this.lifetime--;
+            }
+        }
+        
+        // Drawing functions
+        function drawSky(flashAmount) {
+            for (let y = 0; y < horizon; y++) {
+                const t = y / horizon;
+                const r = lerp(settings.skyColorTop[0], settings.skyColorBottom[0], t) + flashAmount * 0.8;
+                const g = lerp(settings.skyColorTop[1], settings.skyColorBottom[1], t) + flashAmount * 0.8;
+                const b = lerp(settings.skyColorTop[2], settings.skyColorBottom[2], t) + flashAmount * 1.2;
+                
+                ctx.strokeStyle = `rgb(${clamp(r, 0, 255)}, ${clamp(g, 0, 255)}, ${clamp(b, 0, 255)})`;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function drawClouds(flashAmount) {
+            const cloudLayers = 3;
+            
+            for (let layer = 0; layer < cloudLayers; layer++) {
+                const speed = 0.03 + layer * 0.01;
+                const spacing = 18 + layer * 8;
+                const radius = 40 + layer * 12;
+                const alpha = 0.25 + layer * 0.2;
+                const offset = frame * speed + layer * 60;
+                
+                const numClouds = Math.max(30, canvas.width / 15);
+                
+                // Create a temporary canvas for this cloud layer with blur effect
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                for (let i = 0; i < numClouds; i++) {
+                    const x = (i * spacing + offset) % (canvas.width + spacing);
+                    const y = Math.sin(i * 0.3 + offset * 0.1) * 20 + 40 + layer * 20;
+                    
+                    const baseColor = 60 + layer * 10;
+                    const flashBoost = flashAmount > 0 ? flashAmount * 0.5 : 0;
+                    
+                    // Draw multiple overlapping circles for more realistic cloud shape
+                    const cloudColor = `rgba(${baseColor + flashBoost}, ${baseColor + flashBoost}, ${80 + layer * 15 + flashBoost}, ${alpha})`;
+                    
+                    // Main cloud body
+                    tempCtx.fillStyle = cloudColor;
+                    tempCtx.beginPath();
+                    tempCtx.arc(x, y, radius, 0, Math.PI * 2);
+                    tempCtx.fill();
+                    
+                    // Additional puffs for more organic shape
+                    for (let puff = 0; puff < 4; puff++) {
+                        const puffX = x + (Math.sin(puff + i * 0.5) * radius * 0.6);
+                        const puffY = y + (Math.cos(puff + i * 0.3) * radius * 0.4);
+                        const puffRadius = radius * (0.6 + Math.sin(frame * 0.01 + puff + i) * 0.2);
+                        
+                        tempCtx.beginPath();
+                        tempCtx.arc(puffX, puffY, puffRadius, 0, Math.PI * 2);
+                        tempCtx.fill();
+                    }
+                }
+                
+                // Apply blur to the cloud layer for softer edges
+                tempCtx.filter = `blur(${2 + layer}px)`;
+                tempCtx.globalCompositeOperation = 'source-over';
+                tempCtx.drawImage(tempCanvas, 0, 0);
+                
+                // Draw the blurred cloud layer to main canvas
+                ctx.globalAlpha = 1;
+                ctx.drawImage(tempCanvas, 0, 0);
+            }
+        }
+        
+        function drawOceanBase() {
+            for (let y = horizon; y < canvas.height; y++) {
+                const depthFactor = (y - horizon) / (canvas.height - horizon);
+                const r = lerp(settings.oceanSurfaceColor[0], settings.oceanDeepColor[0], depthFactor);
+                const g = lerp(settings.oceanSurfaceColor[1], settings.oceanDeepColor[1], depthFactor);
+                const b = lerp(settings.oceanSurfaceColor[2], settings.oceanDeepColor[2], depthFactor);
+                
+                ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function drawOceanWaves() {
+            const waveLayers = 4;
+            
+            for (let layer = 0; layer < waveLayers; layer++) {
+                const speed1 = 0.03 + layer * 0.015;
+                const speed2 = 0.02 + layer * 0.01;
+                const freq1 = 0.012 + layer * 0.006;
+                const freq2 = 0.018 + layer * 0.008;
+                const height = (8 + layer * 6) * settings.waveChaos;
+                const baseY = horizon + layer * 5;
+                
+                const wavePoints = [];
+                
+                for (let x = 0; x <= canvas.width; x += 2) {
+                    const wave1 = Math.sin((x * freq1) + frame * speed1) * height;
+                    const wave2 = Math.sin((x * freq2 * 1.3) + frame * speed2 + layer * 1.5) * (height * 0.5);
+                    const wave3 = Math.sin((x * freq1 * 1.8) + frame * speed1 * 1.2 + layer * 0.8) * (height * 0.25);
+                    
+                    const noise = (Math.random() - 0.5) * height * 0.15 * settings.waveChaos;
+                    let combinedOffset = wave1 + wave2 + wave3 + noise;
+                    
+                    if (layer > 1 && Math.random() < 0.1 * settings.waveChaos) {
+                        combinedOffset += random(-height/4, height/4);
+                    }
+                    
+                    const y = baseY + combinedOffset;
+                    wavePoints.push([x, y]);
+                }
+                
+                if (wavePoints.length > 2) {
+                    const opacity = 0.12 + layer * 0.16;
+                    const waveR = 18 + layer * 12;
+                    const waveG = 28 + layer * 18;
+                    const waveB = 45 + layer * 20;
+                    
+                    ctx.fillStyle = `rgba(${waveR}, ${waveG}, ${waveB}, ${opacity})`;
+                    ctx.beginPath();
+                    ctx.moveTo(wavePoints[0][0], wavePoints[0][1]);
+                    
+                    for (let i = 1; i < wavePoints.length; i++) {
+                        ctx.lineTo(wavePoints[i][0], wavePoints[i][1]);
+                    }
+                    
+                    ctx.lineTo(canvas.width, canvas.height);
+                    ctx.lineTo(0, canvas.height);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+            
+            // Add foam
+            for (let i = 0; i < canvas.width / 8; i++) {
+                if (Math.random() < 0.4) {
+                    const x = random(0, canvas.width);
+                    let waveY = horizon;
+                    
+                    for (let layer = 0; layer < waveLayers; layer++) {
+                        const speed1 = 0.03 + layer * 0.015;
+                        const freq1 = 0.015 + layer * 0.008;
+                        const height = 12 + layer * 8;
+                        const waveOffset = Math.sin((x * freq1) + frame * speed1) * height;
+                        waveY += waveOffset + layer * 2;
+                    }
+                    
+                    const foamSize = random(3, 12);
+                    const foamAlpha = random(0.15, 0.4);
+                    
+                    for (let j = 0; j < random(2, 5); j++) {
+                        const foamX = x + random(-foamSize, foamSize);
+                        const foamY = waveY + random(-foamSize/2, foamSize/2);
+                        const foamRadius = Math.max(1, random(1, foamSize/2));
+                        
+                        ctx.fillStyle = `rgba(90, 100, 110, ${foamAlpha})`;
+                        ctx.beginPath();
+                        ctx.arc(foamX, foamY, foamRadius, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+        
+        function updateRain() {
+            const numNewDrops = Math.max(2, canvas.width / 300) * settings.rainIntensity;
+            
+            for (let i = 0; i < numNewDrops; i++) {
+                if (Math.random() < 0.8) {
+                    rainDrops.push({
+                        x: random(-50, canvas.width + 50),
+                        y: random(-100, -10),
+                        speed: random(8, 15),
+                        length: random(8, 20)
+                    });
+                }
+            }
+            
+            rainDrops = rainDrops.filter(drop => {
+                drop.y += drop.speed;
+                drop.x += random(-1, 1);
+                return drop.y <= canvas.height + 50;
+            });
+        }
+        
+        function drawRain() {
+            rainDrops.forEach(drop => {
+                const alpha = drop.y < horizon ? 0.4 : 0.24;
+                const startY = drop.y;
+                const endY = drop.y + drop.length;
+                
+                ctx.strokeStyle = `rgba(${settings.rainColor[0]}, ${settings.rainColor[1]}, ${settings.rainColor[2]}, ${alpha})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(drop.x, startY);
+                ctx.lineTo(drop.x + 1, endY);
+                ctx.stroke();
+            });
+        }
+        
+        function updateLightning() {
+            if (lightningFlashTimer > 0) {
+                lightningFlashTimer--;
+                flashOpacity = lerp(flashOpacity, settings.lightningIntensity, 0.3);
+            } else {
+                flashOpacity = lerp(flashOpacity, 0, 0.15);
+            }
+            
+            nextLightningDelay--;
+            if (nextLightningDelay <= 0) {
+                lightningFlashTimer = Math.floor(random(6, 10));
+                nextLightningDelay = Math.floor(random(180, 480));
+                
+                const numBolts = Math.floor(random(1, 3));
+                for (let i = 0; i < numBolts; i++) {
+                    lightningBolts.push(new LightningBolt());
+                }
+            }
+            
+            lightningBolts = lightningBolts.filter(bolt => bolt.lifetime > 0);
+        }
+        
+        function drawLightning() {
+            lightningBolts.forEach(bolt => bolt.draw(ctx));
+        }
+        
+        function drawFlashOverlay() {
+            if (flashOpacity > 5) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${flashOpacity / 255 * 0.5})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+        
+        function drawScanlines() {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
+            ctx.lineWidth = 1;
+            for (let y = 0; y < canvas.height; y += 2) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function drawGlitchBar() {
+            if (Math.random() < 0.015 * settings.glitchIntensity) {
+                const y = random(0, canvas.height - 3);
+                const width = random(canvas.width / 4, canvas.width);
+                const intensity = 70 * settings.glitchIntensity;
+                
+                ctx.fillStyle = `rgba(${random(40, intensity)}, 0, 20, 0.3)`;
+                ctx.fillRect(0, y, width, 2);
+            }
+        }
+        
+        function screenJitter() {
+            if (lightningFlashTimer > 0) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                const dx = random(-3, 3);
+                const dy = random(-2, 2);
+                ctx.putImageData(imageData, dx, dy);
+            }
+        }
+        
+        // Event handlers
+        function triggerLightning() {
+            lightningFlashTimer = Math.floor(random(8, 12));
+            const numBolts = Math.floor(random(2, 4));
+            for (let i = 0; i < numBolts; i++) {
+                lightningBolts.push(new LightningBolt());
+            }
+        }
+        
+        function toggleControls() {
+            const controls = document.getElementById('controls');
+            controls.classList.toggle('hidden');
+        }
+        
+        // Setup control listeners
+        function setupControls() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const updateValue = () => {
+                    const valueSpan = document.getElementById(slider.id + '_val');
+                    if (valueSpan) {
+                        valueSpan.textContent = slider.value;
+                    }
+                    
+                    // Update settings based on slider
+                    const value = parseFloat(slider.value);
+                    switch (slider.id) {
+                        case 'skyTopR':
+                            settings.skyColorTop[0] = value;
+                            break;
+                        case 'skyTopG':
+                            settings.skyColorTop[1] = value;
+                            break;
+                        case 'skyTopB':
+                            settings.skyColorTop[2] = value;
+                            break;
+                        case 'oceanR':
+                            settings.oceanSurfaceColor[0] = value;
+                            break;
+                        case 'oceanG':
+                            settings.oceanSurfaceColor[1] = value;
+                            break;
+                        case 'oceanB':
+                            settings.oceanSurfaceColor[2] = value;
+                            break;
+                        case 'lightningR':
+                            settings.lightningColor[0] = value;
+                            break;
+                        case 'lightningG':
+                            settings.lightningColor[1] = value;
+                            break;
+                        case 'lightningB':
+                            settings.lightningColor[2] = value;
+                            break;
+                        case 'lightningIntensity':
+                            settings.lightningIntensity = value;
+                            break;
+                        case 'rainIntensity':
+                            settings.rainIntensity = value;
+                            break;
+                        case 'waveChaos':
+                            settings.waveChaos = value;
+                            break;
+                        case 'glitchIntensity':
+                            settings.glitchIntensity = value;
+                            break;
+                        case 'audioVolume':
+                            if (audioElement) {
+                                audioElement.volume = value;
+                            }
+                            break;
+                    }
+                };
+                
+                slider.addEventListener('input', updateValue);
+                updateValue(); // Initialize display
+            });
+        }
+        
+        // Keyboard and mouse events
+        document.addEventListener('keydown', (e) => {
+            switch (e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    triggerLightning();
+                    break;
+                case 'Tab':
+                    e.preventDefault();
+                    toggleControls();
+                    break;
+                case 'Escape':
+                    toggleControls();
+                    break;
+            }
+        });
+        
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            lightningFlashTimer = Math.floor(random(8, 12));
+            lightningBolts.push(new LightningBolt(x, y));
+        });
+        
+        // Main animation loop
+        function animate() {
+            // Clear canvas
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Update systems
+            updateLightning();
+            updateRain();
+            
+            // Draw everything
+            drawSky(flashOpacity);
+            drawClouds(flashOpacity);
+            drawOceanBase();
+            drawOceanWaves();
+            drawLightning();
+            drawRain();
+            drawFlashOverlay();
+            drawGlitchBar();
+            drawScanlines();
+            screenJitter();
+            
+            frame++;
+            requestAnimationFrame(animate);
+        }
+        
+        // Initialize and start
+        setupControls();
+        animate();
+    </script>
+</body>
+</html>
