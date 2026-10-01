@@ -11,7 +11,6 @@
     <style>
         :root {
             --void: #08060d;
-            --murk: #15101f;
             --bone: #d9d3e6;
             --dusk: #9a86e0;
             --blood: #9b3030;
@@ -90,54 +89,12 @@
         .hero {
             position: relative;
             z-index: 1;
-            height: clamp(140px, 17vh, 170px);
-            overflow: hidden;
-            background: var(--murk);
-        }
-
-        .hero-img,
-        .hero-ghost {
-            position: absolute;
-            inset: 0;
-            background: url('NoHappiness.png') 70% 13% / cover no-repeat;
-        }
-
-        .hero-ghost { opacity: 0; mix-blend-mode: screen; }
-        .hero-ghost.a { filter: hue-rotate(90deg) saturate(2); }
-        .hero-ghost.b { filter: hue-rotate(250deg) saturate(2); }
-
-        .hero:hover .hero-ghost.a,
-        .hero:focus-within .hero-ghost.a { animation: tear-a 0.5s steps(2) 1; }
-        .hero:hover .hero-ghost.b,
-        .hero:focus-within .hero-ghost.b { animation: tear-b 0.5s steps(2) 1; }
-
-        @keyframes tear-a {
-            0%   { opacity: .75; transform: translateX(-10px); clip-path: inset(10% 0 60% 0); }
-            50%  { opacity: .75; transform: translateX(8px);   clip-path: inset(55% 0 15% 0); }
-            100% { opacity: 0;   transform: none;              clip-path: inset(0); }
-        }
-        @keyframes tear-b {
-            0%   { opacity: .75; transform: translateX(12px);  clip-path: inset(60% 0 10% 0); }
-            50%  { opacity: .75; transform: translateX(-9px);  clip-path: inset(20% 0 55% 0); }
-            100% { opacity: 0;   transform: none;              clip-path: inset(0); }
-        }
-
-        .hero::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(8, 6, 13, 0) 35%, var(--void) 100%);
         }
 
         .hero-title {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 2;
             max-width: 46rem;
             margin: 0 auto;
-            padding: 0 1.5rem 0.5rem;
+            padding: 3.5rem 1.5rem 0;
         }
 
         .hero-title h1 {
@@ -150,7 +107,7 @@
             text-shadow: 3px 0 var(--blood), -3px 0 rgba(60, 200, 216, 0.55);
         }
 
-      main {
+        main {
             position: relative;
             z-index: 1;
             max-width: 46rem;
@@ -193,20 +150,12 @@
             color: #6f6784;
             font-size: 1.1rem;
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            .hero:hover .hero-ghost,
-            .hero:focus-within .hero-ghost { animation: none; }
-        }
     </style>
 </head>
 <body>
     <div class="jp-field" id="jp-field" aria-hidden="true"></div>
 
-    <header class="hero" tabindex="-1">
-        <div class="hero-img" role="img" aria-label="A glitched TV test pattern reading NO SIGNAL, with a dark-haired elf character looking over her shoulder."></div>
-        <div class="hero-ghost a" aria-hidden="true"></div>
-        <div class="hero-ghost b" aria-hidden="true"></div>
+    <header class="hero">
         <div class="hero-title">
             <h1>Demi</h1>
         </div>
@@ -228,12 +177,14 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Demi</p>
+        <p>&copy; 2025 Demi</p>
     </footer>
 
     <script>
+
         (function () {
             var field = document.getElementById('jp-field');
+
             var PHRASES = [
                 { t: '迷わないでください', w: 20 },
                 { t: 'あてもなくさまよう', w: 20 },
@@ -314,6 +265,7 @@
                 field.appendChild(el);
 
                 if (reduce) {
+
                     if (i < 4) { place(el, PHRASES[i]); el.style.opacity = LEVELS[0]; }
                 } else {
                     (function (el) {
