@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demi</title>
+    <meta name="description" content="Programmer and gamer.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Sans+JP:wght@300&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #08060d;
+            --murk: #15101f;
+            --bone: #d9d3e6;
+            --dusk: #9a86e0;
+            --blood: #9b3030;
+            --static: #3cc8d8;
+            --display: 'IM Fell English', Georgia, 'Times New Roman', serif;
+            --body: 'VT323', 'Courier New', monospace;
+            --jp: 'Noto Sans JP', 'Yu Gothic', 'Hiragino Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background: var(--void); }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 20% 100%, rgba(80, 50, 140, 0.18), transparent 60%),
+                var(--void);
+            color: var(--bone);
+            font-family: var(--body);
+            font-size: 1.4rem;
+            line-height: 1.45;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(51, 179, 191, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(51, 179, 191, 0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 0,
+                rgba(0, 0, 0, 0) 2px,
+                rgba(0, 0, 0, 0.16) 3px
+            );
+            z-index: 10;
+        }
+
+        a { color: var(--dusk); text-underline-offset: 4px; }
+        a:hover { color: var(--static); }
+        a:focus-visible {
+            outline: 2px solid var(--static);
+            outline-offset: 4px;
+        }
+
+        .jp-field {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .jp {
+            position: absolute;
+            font-family: var(--jp);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+            color: var(--bone);
+            opacity: 0;
+        }
+        .jp.v { writing-mode: vertical-rl; }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            height: clamp(140px, 17vh, 170px);
+            overflow: hidden;
+            background: var(--murk);
+        }
+
+        .hero-img,
+        .hero-ghost {
+            position: absolute;
+            inset: 0;
+            background: url('NoHappiness.png') 70% 13% / cover no-repeat;
+        }
+
+        .hero-ghost { opacity: 0; mix-blend-mode: screen; }
+        .hero-ghost.a { filter: hue-rotate(90deg) saturate(2); }
+        .hero-ghost.b { filter: hue-rotate(250deg) saturate(2); }
+
+        .hero:hover .hero-ghost.a,
+        .hero:focus-within .hero-ghost.a { animation: tear-a 0.5s steps(2) 1; }
+        .hero:hover .hero-ghost.b,
+        .hero:focus-within .hero-ghost.b { animation: tear-b 0.5s steps(2) 1; }
+
+        @keyframes tear-a {
+            0%   { opacity: .75; transform: translateX(-10px); clip-path: inset(10% 0 60% 0); }
+            50%  { opacity: .75; transform: translateX(8px);   clip-path: inset(55% 0 15% 0); }
+            100% { opacity: 0;   transform: none;              clip-path: inset(0); }
+        }
+        @keyframes tear-b {
+            0%   { opacity: .75; transform: translateX(12px);  clip-path: inset(60% 0 10% 0); }
+            50%  { opacity: .75; transform: translateX(-9px);  clip-path: inset(20% 0 55% 0); }
+            100% { opacity: 0;   transform: none;              clip-path: inset(0); }
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(8, 6, 13, 0) 35%, var(--void) 100%);
+        }
+
+        .hero-title {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            max-width: 46rem;
+            margin: 0 auto;
+            padding: 0 1.5rem 0.5rem;
+        }
+
+        .hero-title h1 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            line-height: 1;
+            letter-spacing: 0.02em;
+            color: var(--bone);
+            text-shadow: 3px 0 var(--blood), -3px 0 rgba(60, 200, 216, 0.55);
+        }
+
+      main {
+            position: relative;
+            z-index: 1;
+            max-width: 46rem;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 4rem;
+        }
+
+        .tagline {
+            font-size: 1.7rem;
+            color: var(--dusk);
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: 2rem;
+            color: var(--bone);
+            margin: 2.75rem 0 0.75rem;
+        }
+
+        p { max-width: 60ch; margin-bottom: 1rem; }
+
+        .epigraph {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #5f5876;
+            margin: 3rem 0 0;
+            max-width: 38ch;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            max-width: 46rem;
+            margin: 0 auto;
+            padding: 1.5rem;
+            color: #6f6784;
+            font-size: 1.1rem;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero:hover .hero-ghost,
+            .hero:focus-within .hero-ghost { animation: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="jp-field" id="jp-field" aria-hidden="true"></div>
+
+    <header class="hero" tabindex="-1">
+        <div class="hero-img" role="img" aria-label="A glitched TV test pattern reading NO SIGNAL, with a dark-haired elf character looking over her shoulder."></div>
+        <div class="hero-ghost a" aria-hidden="true"></div>
+        <div class="hero-ghost b" aria-hidden="true"></div>
+        <div class="hero-title">
+            <h1>Demi</h1>
+        </div>
+    </header>
+
+    <main>
+        <p class="tagline">I write code and tend to fall down the rabbit hole of playing games</p>
+
+        <h2>About</h2>
+        <p>I'm a programmer and a gamer. I like taking things apart and exploring how they work, and creating new things to see what I am able to do with it.</p>
+        <p>This page is my dark, quiet little corner of the internet, that much like myself, kind of just exists off in the void.. Somewhere.</p>
+
+        <h2>Playing</h2>
+        <p>Lunacid probably, again. Wandering into something or somewhere that I probably should not be.</p>
+
+        <blockquote class="epigraph">
+            Some days I wish I could feel the warmth on my skin, but the Sun never shines for me.
+        </blockquote>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Demi</p>
+    </footer>
+
+    <script>
+        (function () {
+            var field = document.getElementById('jp-field');
+            var PHRASES = [
+                { t: '迷わないでください', w: 20 },
+                { t: 'あてもなくさまよう', w: 20 },
+                { t: '恨みを抱かずに', w: 20 },
+                { t: '私を狂気に導いてください', w: 20 },
+                { t: 'すべてを忘れてしまいたい', w: 1, rare: true },
+                { t: 'これ 和 永遠 に 終わらない のでしょう か？', w: 1, rare: true, long: true },
+                { t: '記憶が薄れていく', w: 1, rare: true }
+            ];
+
+            var LEVELS = [0.14, 0.27, 0.45];
+
+            var activeRare = {};
+
+            function rnd(min, max) { return min + Math.random() * (max - min); }
+
+            function pick() {
+                var pool = PHRASES.filter(function (p) { return !(p.rare && activeRare[p.t]); });
+                var total = pool.reduce(function (n, p) { return n + p.w; }, 0);
+                var r = Math.random() * total;
+                for (var i = 0; i < pool.length; i++) {
+                    r -= pool[i].w;
+                    if (r <= 0) return pool[i];
+                }
+                return pool[0];
+            }
+
+            function place(el, p) {
+                var narrow = window.innerWidth < 700;
+                var vertical = !p.long && Math.random() < 0.25;
+                var onSides = !narrow && Math.random() < 0.7;
+                var x = onSides
+                    ? (Math.random() < 0.5 ? rnd(-3, 18) : rnd(70, 92))
+                    : rnd(-3, 85);
+                var y = rnd(0, 90);
+
+                el.textContent = p.t;
+                el.className = 'jp' + (vertical ? ' v' : '');
+                el.style.left = x + 'vw';
+                el.style.top = y + 'vh';
+                el.style.fontSize = rnd(1.1, 2.8).toFixed(2) + 'rem';
+                el.style.transform = 'rotate(' + rnd(-18, 18).toFixed(1) + 'deg)';
+            }
+
+            function cycle(el) {
+                var p = pick();
+                if (p.rare) activeRare[p.t] = true;
+
+                el.style.transition = 'none';
+                el.style.opacity = 0;
+                place(el, p);
+                void el.offsetWidth;
+
+                var fadeIn = rnd(4000, 6500);
+                var hold = rnd(3000, 7000);
+                var fadeOut = rnd(4000, 6500);
+                var level = LEVELS[Math.floor(Math.random() * LEVELS.length)];
+
+                el.style.transition = 'opacity ' + fadeIn + 'ms ease-in-out';
+                el.style.opacity = level;
+
+                setTimeout(function () {
+                    el.style.transition = 'opacity ' + fadeOut + 'ms ease-in-out';
+                    el.style.opacity = 0;
+                    setTimeout(function () {
+                        if (p.rare) delete activeRare[p.t];
+                        setTimeout(function () { cycle(el); }, rnd(800, 3500));
+                    }, fadeOut);
+                }, fadeIn + hold);
+            }
+
+            var count = window.innerWidth < 700 ? 5 : 9;
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            for (var i = 0; i < count; i++) {
+                var el = document.createElement('span');
+                el.className = 'jp';
+                field.appendChild(el);
+
+                if (reduce) {
+                    if (i < 4) { place(el, PHRASES[i]); el.style.opacity = LEVELS[0]; }
+                } else {
+                    (function (el) {
+                        setTimeout(function () { cycle(el); }, rnd(0, 8000));
+                    })(el);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
